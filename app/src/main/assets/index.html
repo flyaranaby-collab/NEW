@@ -1,0 +1,479 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>나의 3P 바인더</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 휴대폰 한 손 사용 — 상단 날짜 바, 바인더 속지 카드, 하단 탭 바 */
+:root{
+  --paper:#f3f4f8; --sheet:#ffffff; --ink:#1c2233; --muted:#69708a; --line:#dde1ec; --grid:#eef0f6;
+  --accent:#8a2c3f; --accent-ink:#ffffff; --accent-soft:#f6e7ea;
+  --c1:#e46f93; --c2:#ef9440; --c3:#7fba3a; --c4:#3fa8e0; --c5:#9476d0;
+  --ok:#2f8a57; --warn:#b5761b;
+  --f-display:"Gowun Batang", "Nanum Myeongjo", serif;
+  --f-body:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#12141b; --sheet:#1b1e28; --ink:#e7e9f1; --muted:#9aa1b8; --line:#2d3242; --grid:#232734;
+  --accent:#e2869a; --accent-ink:#1b1e28; --accent-soft:#3a2229;
+  --c1:#d9688b; --c2:#e08a3c; --c3:#76ad37; --c4:#3c9bd0; --c5:#8a6ec4; --ok:#5cc28a; --warn:#e0a54a;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#12141b; --sheet:#1b1e28; --ink:#e7e9f1; --muted:#9aa1b8; --line:#2d3242; --grid:#232734;
+  --accent:#e2869a; --accent-ink:#1b1e28; --accent-soft:#3a2229;
+  --c1:#d9688b; --c2:#e08a3c; --c3:#76ad37; --c4:#3c9bd0; --c5:#8a6ec4; --ok:#5cc28a; --warn:#e0a54a;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--accent)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--accent);color:var(--accent-ink);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
+.top-in{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.brand{font-family:var(--f-display);font-size:19px;letter-spacing:.01em;flex:1;min-width:0}
+.brand small{font-family:var(--f-body);font-size:11px;opacity:.8;letter-spacing:.08em;margin-left:6px}
+.sync{font-size:11px;padding:3px 8px;border-radius:99px;background:rgba(255,255,255,.18);white-space:nowrap}
+main{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:14px calc(96px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px}
+.sheet{position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 16px 16px 30px;min-width:0}
+.sheet::before{content:"";position:absolute;left:10px;top:18px;bottom:18px;width:8px;
+  background:radial-gradient(circle,var(--paper) 3px,var(--line) 3.5px,transparent 4.5px) 0 0/8px 34px repeat-y}
+.sh{display:flex;align-items:baseline;gap:8px;margin:0 0 10px}
+.sh h2{font-family:var(--f-display);font-size:18px;margin:0;text-wrap:balance}
+.sh .tag{font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.sh .r{margin-left:auto;font-size:12px;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.datenav{display:flex;align-items:center;gap:8px}
+.datenav .d{flex:1;text-align:center;font-family:var(--f-display);font-size:20px}
+.iconbtn{border:1px solid var(--line);background:var(--sheet);border-radius:8px;width:38px;height:38px;display:grid;place-items:center}
+.pill{border:1px solid var(--line);background:var(--sheet);border-radius:99px;padding:6px 12px;font-size:13px}
+.pill.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mission{border-left:3px solid var(--accent);padding:4px 0 4px 12px;font-family:var(--f-display);font-size:15px;white-space:pre-wrap}
+input[type=text],input[type=date],textarea,select{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:9px 10px;min-width:0}
+textarea{resize:vertical;min-height:72px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+label.f>*{font-size:15px;color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border:0;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:9px 14px;font-weight:600;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.addline{display:flex;gap:8px;margin-top:10px}
+.addline select{width:64px;flex:none}
+/* tasks */
+.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.tasks li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.pri{width:28px;height:28px;flex:none;border-radius:6px;border:1px solid var(--line);font-family:var(--f-mono);font-size:13px;background:var(--paper)}
+.pri.A{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pri.B{border-color:var(--accent);color:var(--accent)}
+.chk{width:24px;height:24px;flex:none;border-radius:50%;border:2px solid var(--muted);background:transparent;display:grid;place-items:center}
+.chk.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.tasks .tx{flex:1;min-width:0;overflow-wrap:anywhere}
+.tasks li.done .tx{text-decoration:line-through;color:var(--muted)}
+.x{border:0;background:none;color:var(--muted);font-size:18px;width:28px}
+/* palette */
+.palette{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.sw{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--sheet);border-radius:99px;padding:5px 10px 5px 6px;font-size:12px}
+.sw i{width:16px;height:16px;border-radius:50%;background:var(--c);display:block}
+.sw.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+/* timeline */
+.tl{display:grid;grid-template-columns:44px 1fr 1fr 1.4fr;border-top:1px solid var(--line)}
+.tl .hd{font-size:11px;letter-spacing:.08em;color:var(--muted);padding:6px 4px;text-align:center;border-bottom:1px solid var(--line)}
+.tl .t{font-family:var(--f-mono);font-size:11px;color:var(--muted);padding:0 4px;height:32px;display:flex;align-items:center;border-bottom:1px solid var(--grid)}
+.tl .t.half{color:transparent}
+.tl .t.now{color:var(--accent)}
+.cell{height:32px;border:0;border-bottom:1px solid var(--grid);border-left:1px solid var(--grid);background:var(--c,transparent);padding:0}
+.cell.full{border-bottom-color:rgba(255,255,255,.35)}
+.tl .memo{height:32px;border:0;border-bottom:1px solid var(--grid);border-left:1px solid var(--grid);background:transparent;border-radius:0;padding:0 6px;font-size:13px;width:100%;min-width:0}
+.tl .hr .t, .tl .hr.cell, .tl .hr.memo{border-top:0}
+.sum{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin-top:10px;font-variant-numeric:tabular-nums}
+.sum b{color:var(--ink)}
+/* habits */
+.habits{display:flex;flex-wrap:wrap;gap:8px}
+.hb{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.hb.on{background:var(--ok);border-color:var(--ok);color:#fff}
+/* week heat */
+.wk{display:grid;grid-template-columns:34px repeat(7,1fr);gap:1px;font-variant-numeric:tabular-nums}
+.wk .dh{font-size:11px;text-align:center;padding:4px 0;border:0;background:none;color:var(--ink);border-radius:4px}
+.wk .dh.today{background:var(--accent);color:var(--accent-ink)}
+.wk .dh small{display:block;color:inherit;opacity:.7;font-size:10px}
+.wk .tt{font-family:var(--f-mono);font-size:9px;color:var(--muted);height:9px;line-height:9px}
+.wk .hc{height:9px;background:var(--c,var(--grid));border-radius:1px}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:78px 1fr 64px;align-items:center;gap:8px;font-size:12px;font-variant-numeric:tabular-nums}
+.bar .tr{display:flex;flex-direction:column;gap:3px}
+.bar .p,.bar .dd{height:7px;border-radius:4px;background:var(--c);min-width:2px}
+.bar .p{opacity:.35}
+.bar .n{text-align:right;color:var(--muted)}
+.legend{font-size:11px;color:var(--muted);display:flex;gap:12px;margin-bottom:8px}
+.hm{display:grid;grid-template-columns:minmax(0,1fr) repeat(7,24px);gap:4px;align-items:center;font-size:12px}
+.hm .dot{width:20px;height:20px;border-radius:5px;background:var(--grid);justify-self:center}
+.hm .dot.on{background:var(--ok)}
+.hm .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hm .hdr{font-size:10px;color:var(--muted);text-align:center}
+/* goals */
+.goal{padding:10px 0;border-bottom:1px dashed var(--line);display:flex;flex-direction:column;gap:6px}
+.goal .gt{display:flex;gap:8px;align-items:baseline}
+.goal .gt b{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:600}
+.dday{font-family:var(--f-mono);font-size:12px;padding:2px 7px;border-radius:5px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.dday.over{background:var(--grid);color:var(--muted)}
+.prog{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog input{flex:1;accent-color:var(--accent)}
+/* books */
+.book{border-bottom:1px dashed var(--line);padding:10px 0}
+.book summary{list-style:none;display:flex;gap:8px;align-items:baseline;cursor:pointer}
+.book summary::-webkit-details-marker{display:none}
+.book summary b{flex:1;min-width:0;overflow-wrap:anywhere}
+.stars{color:var(--warn);letter-spacing:1px;font-size:13px;white-space:nowrap}
+.bkk{display:grid;gap:8px;margin-top:10px}
+.bkk div{font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.bkk span{display:inline-block;font-size:11px;letter-spacing:.06em;color:var(--accent);font-weight:600;margin-right:6px}
+.big{font-family:var(--f-display);font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.guide{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--sheet);padding:8px 14px;border-radius:8px;font-size:13px;z-index:20}
+/* tab bar */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--sheet);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+nav.tabs .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 7px;font-size:11px;color:var(--muted);text-decoration:none}
+nav.tabs a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs a.on{color:var(--accent);font-weight:600}
+@media (prefers-reduced-motion:no-preference){.cell{transition:background .12s}}
+</style>
+
+<header class="top"><div class="top-in"><div class="brand">3P 바인더<small>PLAN · DO · SEE</small></div><span class="sync" id="sync">이 휴대폰에 저장</span></div></header>
+<main id="app"></main>
+<nav class="tabs"><div class="in">
+  <a href="#today" data-tab="today"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/><path d="M9 15l2 2 4-4"/></svg>오늘</a>
+  <a href="#week" data-tab="week"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M8 10v10M13 10v10M18 10v10"/></svg>위클리</a>
+  <a href="#goals" data-tab="goals"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg>목표</a>
+  <a href="#books" data-tab="books"><svg viewBox="0 0 24 24"><path d="M4 5c3-1 6-1 8 1v14c-2-2-5-2-8-1zM20 5c-3-1-6-1-8 1v14c2-2 5-2 8-1z"/></svg>독서</a>
+  <a href="#mission" data-tab="mission"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>사명</a>
+</div></nav>
+
+<script>
+const CATS=[
+ {k:1,n:'직접 성과',d:'핵심 업무, 매출·가치를 만드는 일'},
+ {k:2,n:'준비·이동',d:'준비, 이동, 잡무 같은 비부가가치 일'},
+ {k:3,n:'가정·개인',d:'가족, 식사, 휴식, 개인 시간'},
+ {k:4,n:'자기계발',d:'독서, 운동, 공부, 취미'},
+ {k:5,n:'인맥',d:'만남, 모임, 연락'}];
+const START=5, SLOTS=38; // 05:00 ~ 24:00, 30분 단위
+const DOW=['일','월','화','수','목','금','토'];
+
+/* ---------- 날짜 ---------- */
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return ymd(d)};
+const monday=s=>{const d=parse(s);const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);return ymd(d)};
+const today=()=>ymd(new Date());
+const slotLabel=i=>pad(START+Math.floor(i/2))+':'+(i%2?'30':'00');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,10);
+
+/* ---------- 저장소: 클라우드(db) + 기기(localStorage) ---------- */
+function defFor(id){
+  if(id==='core')return{mission:'',vision:'',values:'',dreams:[],goals:[],months:{},habits:[]};
+  if(id==='books')return{list:[]};
+  if(id.startsWith('week-'))return{goals:['','',''],keep:'',problem:'',try:''};
+  return{plan:{},do:{},memo:{},tasks:[],habits:{},note:''};
+}
+const Store={db:null,uid:null,cache:{},timers:{},pending:{},
+  k(id){return '3p:'+id},
+  lsGet(id){try{const v=localStorage.getItem(this.k(id));return v?JSON.parse(v):null}catch(e){return null}},
+  lsSet(id,v){try{localStorage.setItem(this.k(id),JSON.stringify(v))}catch(e){}},
+  get(id){if(!(id in this.cache)){this.cache[id]=Object.assign(defFor(id),this.lsGet(id)||{});this.fetch(id)}return this.cache[id]},
+  ref(id){return this.db.collection('data/users/'+this.uid).doc(id)},
+  async fetch(id){
+    if(!this.db)return;
+    try{const s=await this.ref(id).get();
+      if(this.pending[id])return;
+      if(s.exists){this.cache[id]=Object.assign(defFor(id),JSON.parse(JSON.stringify(s.data())));this.lsSet(id,this.cache[id]);scheduleRender()}
+      else if(this.lsGet(id))this.save(id); // 기기에만 있던 기록을 클라우드로 올림
+    }catch(e){}
+  },
+  save(id){
+    this.lsSet(id,this.cache[id]);
+    if(!this.db)return;
+    this.pending[id]=true;clearTimeout(this.timers[id]);setSync('saving');
+    this.timers[id]=setTimeout(async()=>{
+      try{await this.ref(id).set(JSON.parse(JSON.stringify(this.cache[id])));setSync('ok')}
+      catch(e){setSync('err')}
+      this.pending[id]=false;
+    },700);
+  }
+};
+function setSync(s){const el=document.getElementById('sync');
+  el.textContent={ok:'클라우드 저장됨',saving:'저장 중…',err:'저장 실패 · 기기에 보관',local:'이 휴대폰에 저장'}[s]||s}
+async function connect(){
+  if(!window.claude||!window.claude.use){setSync('local');return}
+  try{const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
+    if(!db||!user){setSync('local');return}
+    const id=await user.id(); if(!id){setSync('local');return}
+    Store.db=db;Store.uid=id;setSync('ok');
+    Object.keys(Store.cache).forEach(k=>Store.fetch(k));
+  }catch(e){setSync('local')}
+}
+
+/* ---------- 상태 ---------- */
+const st={tab:'today',date:today(),week:monday(today()),brush:1,month:today().slice(0,7),wkMode:'do',bookOpen:false};
+const app=document.getElementById('app');
+let rq=null;function scheduleRender(){if(rq)return;rq=requestAnimationFrame(()=>{rq=null;render(true)})}
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),1800)}
+
+/* ---------- 화면: 오늘 ---------- */
+function vToday(){
+  const core=Store.get('core'),day=Store.get('day-'+st.date),d=parse(st.date);
+  const isToday=st.date===today();const nowSlot=isToday?(new Date().getHours()-START)*2+(new Date().getMinutes()>=30?1:0):-1;
+  const tasks=[...day.tasks].sort((a,b)=>(a.done-b.done)||a.pri.localeCompare(b.pri));
+  let pl=0,dn=0,match=0;for(let i=0;i<SLOTS;i++){if(day.plan[i])pl++;if(day.do[i])dn++;if(day.plan[i]&&day.plan[i]===day.do[i])match++}
+  let rows='';
+  for(let i=0;i<SLOTS;i++){
+    const p=day.plan[i],o=day.do[i];
+    rows+=`<span class="t ${i%2?'half':''} ${i===nowSlot?'now':''}">${i%2?'':slotLabel(i)}</span>`+
+      `<button class="cell ${p?'full':''}" style="--c:${p?'var(--c'+p+')':'transparent'}" data-act="paint" data-col="plan" data-i="${i}" aria-label="${slotLabel(i)} 계획"></button>`+
+      `<button class="cell ${o?'full':''}" style="--c:${o?'var(--c'+o+')':'transparent'}" data-act="paint" data-col="do" data-i="${i}" aria-label="${slotLabel(i)} 실행"></button>`+
+      `<input class="memo" id="memo-${i}" type="text" data-doc="day-${st.date}" data-field="memo.${i}" value="${esc(day.memo[i])}" placeholder="${i===4?'예: 아침 운동':''}" aria-label="${slotLabel(i)} 메모">`;
+  }
+  const habits=core.habits.length?core.habits.map(h=>`<button class="hb ${day.habits[h.id]?'on':''}" data-act="habit" data-id="${h.id}">${day.habits[h.id]?'✓':'○'} ${esc(h.name)}</button>`).join('')
+    :`<p class="hint">목표 탭에서 매일 지킬 습관을 추가하면 여기서 체크할 수 있어요.</p>`;
+  return `
+  <div class="datenav">
+    <button class="iconbtn" data-act="day" data-n="-1" aria-label="이전 날">‹</button>
+    <div class="d">${d.getMonth()+1}월 ${d.getDate()}일 (${DOW[d.getDay()]})</div>
+    <button class="iconbtn" data-act="day" data-n="1" aria-label="다음 날">›</button>
+    ${isToday?'':'<button class="pill" data-act="gotoday">오늘</button>'}
+  </div>
+  ${core.mission?`<section class="sheet"><div class="sh"><span class="tag">나의 사명</span></div><div class="mission">${esc(core.mission)}</div></section>`:''}
+  <section class="sheet">
+    <div class="sh"><h2>우선순위 할 일</h2><span class="r">A 꼭 · B 해야 · C 하면 좋음</span></div>
+    ${tasks.length?`<ul class="tasks">${tasks.map(t=>`<li class="${t.done?'done':''}">
+      <button class="chk ${t.done?'on':''}" data-act="tdone" data-id="${t.id}" aria-label="완료">${t.done?'✓':''}</button>
+      <button class="pri ${t.pri}" data-act="tpri" data-id="${t.id}" aria-label="우선순위 바꾸기">${t.pri}</button>
+      <span class="tx">${esc(t.t)}</span>
+      <button class="x" data-act="tdel" data-id="${t.id}" aria-label="삭제">×</button></li>`).join('')}</ul>`
+      :`<p class="hint">오늘 가장 중요한 일 1~3개를 A로 적어 보세요.</p>`}
+    <div class="addline"><select id="newpri" aria-label="우선순위"><option>A</option><option selected>B</option><option>C</option></select>
+      <input type="text" id="newtask" placeholder="예: 견적서 보내기" enterkeyhint="done"><button class="btn" data-act="tadd">추가</button></div>
+  </section>
+  <section class="sheet">
+    <div class="sh"><h2>타임라인</h2><span class="tag">Plan · Do</span></div>
+    <div class="palette">${CATS.map(c=>`<button class="sw ${st.brush===c.k?'on':''}" style="--c:var(--c${c.k})" data-act="brush" data-k="${c.k}"><i></i>${c.n}</button>`).join('')}
+      <button class="sw ${st.brush===0?'on':''}" style="--c:var(--grid)" data-act="brush" data-k="0"><i></i>지우개</button></div>
+    <p class="hint" style="margin-bottom:8px">색을 고른 뒤 칸을 누르세요. 아침에 <b>계획</b>을 칠하고, 저녁에 실제로 한 일을 <b>실행</b>에 칠합니다.</p>
+    <div class="tl"><span class="hd"></span><span class="hd">계획</span><span class="hd">실행</span><span class="hd">메모</span>${rows}</div>
+    <div class="sum"><span>계획 <b>${pl/2}h</b></span><span>실행 <b>${dn/2}h</b></span><span>계획대로 <b>${pl?Math.round(match/pl*100):0}%</b></span></div>
+  </section>
+  <section class="sheet"><div class="sh"><h2>습관 체크</h2></div><div class="habits">${habits}</div></section>
+  <section class="sheet"><div class="sh"><h2>오늘의 피드백</h2><span class="r">감사·배운 점·내일 다짐</span></div>
+    <textarea id="note" data-doc="day-${st.date}" data-field="note" placeholder="예: 오전 집중 시간을 지켰다. 내일은 이동 시간에 오디오북 듣기.">${esc(day.note)}</textarea></section>`;
+}
+
+/* ---------- 화면: 위클리 ---------- */
+function vWeek(){
+  const core=Store.get('core'),wk=Store.get('week-'+st.week);
+  const days=[...Array(7)].map((_,i)=>addDays(st.week,i)),dd=days.map(s=>Store.get('day-'+s));
+  const a=parse(st.week),b=parse(days[6]);
+  let grid='<span></span>'+days.map(s=>{const x=parse(s);return `<button class="dh ${s===today()?'today':''}" data-act="openday" data-d="${s}">${DOW[x.getDay()]}<small>${x.getDate()}</small></button>`}).join('');
+  for(let i=0;i<SLOTS;i++){grid+=`<span class="tt">${i%4===0?pad(START+i/2):''}</span>`+dd.map(d=>{const c=d[st.wkMode][i];return `<span class="hc" style="${c?'--c:var(--c'+c+')':''}"></span>`}).join('')}
+  const tot={};CATS.forEach(c=>tot[c.k]={p:0,d:0});let match=0,plAll=0;
+  dd.forEach(d=>{for(let i=0;i<SLOTS;i++){if(d.plan[i]){tot[d.plan[i]].p+=.5;plAll++;if(d.plan[i]===d.do[i])match++}if(d.do[i])tot[d.do[i]].d+=.5}});
+  const mx=Math.max(1,...CATS.map(c=>Math.max(tot[c.k].p,tot[c.k].d)));
+  const doneTasks=dd.reduce((s,d)=>s+d.tasks.filter(t=>t.done).length,0),allTasks=dd.reduce((s,d)=>s+d.tasks.length,0);
+  const hm=core.habits.length?`<div class="hm"><span></span>${days.map(s=>`<span class="hdr">${DOW[parse(s).getDay()]}</span>`).join('')}
+    ${core.habits.map(h=>`<span class="nm">${esc(h.name)}</span>${dd.map(d=>`<span class="dot ${d.habits[h.id]?'on':''}"></span>`).join('')}`).join('')}</div>`
+    :`<p class="hint">목표 탭에서 습관을 추가하면 한 주 체크 현황이 보여요.</p>`;
+  return `
+  <div class="datenav">
+    <button class="iconbtn" data-act="week" data-n="-7" aria-label="지난주">‹</button>
+    <div class="d">${a.getMonth()+1}.${a.getDate()} – ${b.getMonth()+1}.${b.getDate()}</div>
+    <button class="iconbtn" data-act="week" data-n="7" aria-label="다음 주">›</button>
+  </div>
+  <section class="sheet"><div class="sh"><h2>이번 주 핵심 목표</h2><span class="r">3가지만</span></div><div class="stack">
+    ${[0,1,2].map(i=>`<input type="text" id="wg${i}" data-doc="week-${st.week}" data-field="goals.${i}" value="${esc(wk.goals[i])}" placeholder="${['예: 신규 체험 프로그램 기획안 완성','예: 책 1권 완독','예: 가족과 저녁 3회'][i]}">`).join('')}</div></section>
+  <section class="sheet">
+    <div class="sh"><h2>한 주 시간 지도</h2><span class="r">
+      <button class="pill ${st.wkMode==='plan'?'on':''}" data-act="wkmode" data-m="plan">계획</button>
+      <button class="pill ${st.wkMode==='do'?'on':''}" data-act="wkmode" data-m="do">실행</button></span></div>
+    <div class="wk">${grid}</div>
+    <p class="hint" style="margin-top:8px">요일을 누르면 그날 타임라인으로 이동해요.</p>
+  </section>
+  <section class="sheet"><div class="sh"><h2>시간 사용 분석</h2></div>
+    <div class="legend"><span>옅은 막대 = 계획</span><span>진한 막대 = 실행</span></div>
+    <div class="bars">${CATS.map(c=>`<div class="bar" style="--c:var(--c${c.k})"><span>${c.n}</span>
+      <span class="tr"><span class="p" style="width:${tot[c.k].p/mx*100}%"></span><span class="dd" style="width:${tot[c.k].d/mx*100}%"></span></span>
+      <span class="n">${tot[c.k].p}→${tot[c.k].d}h</span></div>`).join('')}</div>
+    <div class="sum"><span>계획대로 실행 <b>${plAll?Math.round(match/plAll*100):0}%</b></span><span>할 일 완료 <b>${doneTasks}/${allTasks}</b></span><span>성과 시간 <b>${tot[1].d}h</b></span></div>
+  </section>
+  <section class="sheet"><div class="sh"><h2>습관 현황</h2></div>${hm}</section>
+  <section class="sheet"><div class="sh"><h2>주간 리뷰</h2><span class="tag">See · KPT</span></div><div class="stack">
+    <label class="f">잘한 점, 계속할 것 (Keep)<textarea id="wkk" data-doc="week-${st.week}" data-field="keep" placeholder="예: 오전 성과 시간 확보">${esc(wk.keep)}</textarea></label>
+    <label class="f">아쉬운 점 (Problem)<textarea id="wkp" data-doc="week-${st.week}" data-field="problem" placeholder="예: 이동·잡무가 계획보다 4시간 많았다">${esc(wk.problem)}</textarea></label>
+    <label class="f">다음 주 시도 (Try)<textarea id="wkt" data-doc="week-${st.week}" data-field="try" placeholder="예: 이동 시간 묶어서 처리">${esc(wk.try)}</textarea></label></div></section>`;
+}
+
+/* ---------- 화면: 목표 ---------- */
+function dday(due){if(!due)return'';const n=Math.round((parse(due)-parse(today()))/864e5);return n>0?`<span class="dday">D-${n}</span>`:n===0?'<span class="dday">D-DAY</span>':`<span class="dday over">D+${-n}</span>`}
+function vGoals(){
+  const core=Store.get('core'),y=new Date().getFullYear(),[my,mm]=st.month.split('-').map(Number);
+  return `
+  <section class="sheet"><div class="sh"><h2>${y}년 목표</h2><span class="r">마감일과 진행률</span></div>
+    ${core.goals.length?core.goals.map((g,i)=>`<div class="goal"><div class="gt"><b>${esc(g.t)}</b>${dday(g.due)}<button class="x" data-act="gdel" data-id="${g.id}" aria-label="삭제">×</button></div>
+      <div class="prog"><input type="range" min="0" max="100" step="5" id="gp-${g.id}" data-doc="core" data-field="goals.${i}.prog" value="${g.prog||0}" data-live="pv-${g.id}" aria-label="진행률"><span id="pv-${g.id}">${g.prog||0}%</span></div></div>`).join('')
+      :`<p class="hint">이루고 싶은 목표를 숫자와 마감일로 적어 보세요. 예: 12월 31일까지 체험객 3만 명.</p>`}
+    <div class="stack" style="margin-top:10px"><input type="text" id="ng" placeholder="예: 책 50권 읽기">
+      <div class="addline" style="margin:0"><input type="date" id="ngd" aria-label="마감일"><button class="btn" data-act="gadd">목표 추가</button></div></div>
+  </section>
+  <section class="sheet"><div class="sh"><h2>월간 계획</h2><span class="r">
+    <button class="iconbtn" style="display:inline-grid;width:30px;height:30px" data-act="month" data-n="-1" aria-label="이전 달">‹</button>
+    <b style="color:var(--ink);margin:0 6px">${my}년 ${mm}월</b>
+    <button class="iconbtn" style="display:inline-grid;width:30px;height:30px" data-act="month" data-n="1" aria-label="다음 달">›</button></span></div>
+    <textarea id="mt" data-doc="core" data-field="months.${st.month}" style="min-height:120px" placeholder="이번 달 목표, 중요한 일정, 마감을 적으세요.&#10;예: 11/5 지원사업 서류 마감&#10;예: 운동 12회">${esc(core.months[st.month])}</textarea>
+  </section>
+  <section class="sheet"><div class="sh"><h2>꿈 리스트</h2><span class="r">${core.dreams.filter(x=>x.done).length}/${core.dreams.length} 이룸</span></div>
+    ${core.dreams.length?`<ul class="tasks">${core.dreams.map(x=>`<li class="${x.done?'done':''}"><button class="chk ${x.done?'on':''}" data-act="ddone" data-id="${x.id}" aria-label="이룸">${x.done?'✓':''}</button><span class="tx">${esc(x.t)}</span><button class="x" data-act="ddel" data-id="${x.id}" aria-label="삭제">×</button></li>`).join('')}</ul>`
+      :`<p class="hint">종이 위에 쓰면 이루어진다는 3P의 출발점. 하고 싶은 일, 갖고 싶은 것, 되고 싶은 모습을 적어 보세요.</p>`}
+    <div class="addline"><input type="text" id="nd" placeholder="예: 가족과 제주 한 달 살기"><button class="btn" data-act="dadd">추가</button></div>
+  </section>
+  <section class="sheet"><div class="sh"><h2>매일 습관</h2></div>
+    ${core.habits.length?`<ul class="tasks">${core.habits.map(h=>`<li><span class="tx">${esc(h.name)}</span><button class="x" data-act="hdel" data-id="${h.id}" aria-label="삭제">×</button></li>`).join('')}</ul>`:`<p class="hint">오늘 탭에서 매일 체크할 습관을 정하세요.</p>`}
+    <div class="addline"><input type="text" id="nh" placeholder="예: 물 2L · 30분 독서 · 6시 기상"><button class="btn" data-act="hadd">추가</button></div>
+  </section>`;
+}
+
+/* ---------- 화면: 독서 (본·깨·적) ---------- */
+function vBooks(){
+  const bk=Store.get('books'),y=String(new Date().getFullYear()),cnt=bk.list.filter(b=>(b.date||'').startsWith(y)).length;
+  const list=[...bk.list].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  return `
+  <section class="sheet"><div class="sh"><h2>독서 노트</h2><span class="tag">본 · 깨 · 적</span></div>
+    <div style="display:flex;align-items:flex-end;gap:10px"><span class="big">${cnt}</span><span class="hint">${y}년에 읽은 책 · 전체 ${bk.list.length}권</span>
+    <button class="btn ${st.bookOpen?'ghost':''}" style="margin-left:auto" data-act="bookform">${st.bookOpen?'닫기':'책 기록하기'}</button></div>
+    ${st.bookOpen?`<div class="stack" style="margin-top:14px">
+      <label class="f">책 제목<input type="text" id="b-t" placeholder="예: 성과를 지배하는 바인더의 힘"></label>
+      <div class="row2"><label class="f">저자<input type="text" id="b-a"></label><label class="f">다 읽은 날<input type="date" id="b-d" value="${today()}"></label></div>
+      <label class="f">별점<select id="b-s"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3">★★★</option><option value="2">★★</option><option value="1">★</option></select></label>
+      <label class="f">본 것 — 책의 핵심 내용<textarea id="b-1" placeholder="저자가 말하는 것, 인상 깊은 문장"></textarea></label>
+      <label class="f">깨달은 것 — 나의 생각<textarea id="b-2" placeholder="읽고 새롭게 알게 된 점"></textarea></label>
+      <label class="f">적용할 것 — 내 삶에 옮길 행동<textarea id="b-3" placeholder="예: 이번 주부터 매일 아침 10분 바인더 점검"></textarea></label>
+      <button class="btn" data-act="badd">저장</button></div>`:''}
+  </section>
+  <section class="sheet"><div class="sh"><h2>읽은 책</h2></div>
+    ${list.length?list.map(b=>`<details class="book"><summary><b>${esc(b.t)}</b><span class="stars">${'★'.repeat(b.s||0)}</span></summary>
+      <p class="hint" style="margin-top:4px">${esc(b.a)}${b.a&&b.date?' · ':''}${esc(b.date)}</p>
+      <div class="bkk">${b.k1?`<div><span>본</span>${esc(b.k1)}</div>`:''}${b.k2?`<div><span>깨</span>${esc(b.k2)}</div>`:''}${b.k3?`<div><span>적</span>${esc(b.k3)}</div>`:''}</div>
+      <button class="pill" style="margin-top:10px" data-act="bdel" data-id="${b.id}">이 기록 삭제</button></details>`).join('')
+      :`<p class="hint">아직 기록이 없어요. 위의 ‘책 기록하기’로 첫 책을 남겨 보세요.</p>`}
+  </section>`;
+}
+
+/* ---------- 화면: 사명 · 설정 ---------- */
+function vMission(){
+  const core=Store.get('core');
+  return `
+  <section class="sheet"><div class="sh"><h2>사명과 비전</h2><span class="tag">Mission · Vision</span></div><div class="stack">
+    <label class="f">사명 — 나는 무엇을 위해 사는가<textarea id="ms" data-doc="core" data-field="mission" placeholder="예: 강릉의 바다와 사람을 잇는 즐거운 경험을 만들어, 가족과 이웃이 함께 웃게 한다.">${esc(core.mission)}</textarea></label>
+    <label class="f">비전 — 10년 뒤 나의 모습<textarea id="vs" data-doc="core" data-field="vision" placeholder="예: 2036년, 지역을 대표하는 체험관광 브랜드의 대표">${esc(core.vision)}</textarea></label>
+    <label class="f">핵심 가치 — 판단의 기준<textarea id="vl" data-doc="core" data-field="values" placeholder="예: 정직 · 가족 · 도전 · 감사">${esc(core.values)}</textarea></label>
+    <p class="hint">사명은 오늘 탭 맨 위에 매일 보여요.</p></div></section>
+  <section class="sheet"><div class="sh"><h2>3P 사용법</h2><span class="tag">Plan · Do · See</span></div>
+    <ol class="guide">
+      <li><b>사명 → 목표 → 월간 → 주간 → 오늘</b> 순서로 큰 방향을 작은 행동으로 쪼갭니다.</li>
+      <li>아침에 할 일을 A·B·C로 나누고, 타임라인 <b>계획</b> 칸을 색으로 칠합니다.</li>
+      <li>저녁에 실제로 쓴 시간을 <b>실행</b> 칸에 칠하고 계획과 비교합니다.</li>
+      <li>주말에 위클리 탭의 시간 분석을 보고 <b>주간 리뷰</b>를 씁니다. 성과(분홍) 시간을 늘리는 것이 핵심입니다.</li>
+      <li>책을 읽으면 <b>본 것·깨달은 것·적용할 것</b>으로 정리하고, 적용할 것은 할 일로 옮깁니다.</li>
+    </ol>
+    <div class="bars" style="margin-top:12px">${CATS.map(c=>`<div style="display:flex;gap:8px;align-items:center;font-size:13px"><span class="sw" style="--c:var(--c${c.k});border:0;padding:0"><i></i></span><b style="min-width:66px">${c.n}</b><span class="hint">${c.d}</span></div>`).join('')}</div>
+  </section>
+  <section class="sheet"><div class="sh"><h2>백업과 복원</h2></div>
+    <p class="hint">기록 전체를 글자로 복사해 메모장이나 카톡 나에게 보내기로 보관하세요. 붙여 넣고 ‘복원’을 누르면 되돌아옵니다.</p>
+    <textarea id="bk" style="margin-top:10px;font-family:var(--f-mono);font-size:12px" placeholder="여기에 백업 내용이 나타나거나, 복원할 내용을 붙여 넣으세요."></textarea>
+    <div class="addline"><button class="btn" data-act="export">백업 만들기·공유</button><button class="btn ghost" data-act="import">복원</button></div>
+  </section>
+  <section class="sheet"><div class="sh"><h2>기록 보관 안내</h2></div>
+    <p class="hint">모든 기록은 이 휴대폰 안에만 저장됩니다. 앱을 지우거나 휴대폰을 바꾸기 전에 꼭 ‘백업 만들기·공유’로 카톡 나에게 보내기 등에 보관하세요.</p></section>`;
+}
+
+/* ---------- 렌더 ---------- */
+function render(keepScroll){
+  const y=window.scrollY,fa=document.activeElement,fid=fa&&app.contains(fa)?fa.id:null;
+  let ss=null,se=null;try{ss=fa.selectionStart;se=fa.selectionEnd}catch(e){}
+  app.innerHTML={today:vToday,week:vWeek,goals:vGoals,books:vBooks,mission:vMission}[st.tab]();
+  if(fid){const el=document.getElementById(fid);if(el){el.focus({preventScroll:true});try{if(ss!=null)el.setSelectionRange(ss,se)}catch(e){}}}
+  document.querySelectorAll('nav.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.tab===st.tab));
+  if(keepScroll)window.scrollTo(0,y);
+}
+function route(){const h=location.hash.slice(1);st.tab=['today','week','goals','books','mission'].includes(h)?h:'today';render();window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);
+
+function setPath(o,path,v){const ks=path.split('.');let c=o;for(let i=0;i<ks.length-1;i++){if(c[ks[i]]==null)c[ks[i]]={};c=c[ks[i]]}c[ks[ks.length-1]]=v}
+app.addEventListener('input',e=>{
+  const t=e.target,doc=t.dataset.doc;if(!doc)return;
+  let v=t.type==='range'?Number(t.value):t.value;
+  setPath(Store.get(doc),t.dataset.field,v);Store.save(doc);
+  if(t.dataset.live)document.getElementById(t.dataset.live).textContent=v+'%';
+});
+app.addEventListener('keydown',e=>{if(e.key!=='Enter'||e.isComposing)return;
+  const map={newtask:'tadd',ng:'gadd',nd:'dadd',nh:'hadd'};const a=map[e.target.id];if(a){e.preventDefault();act(a,{})}});
+app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;act(b.dataset.act,b.dataset)});
+
+function val(id){const el=document.getElementById(id);return el?el.value.trim():''}
+function act(a,d){
+  const dayId='day-'+st.date;
+  switch(a){
+  case'day':st.date=addDays(st.date,+d.n);break;
+  case'gotoday':st.date=today();break;
+  case'brush':st.brush=+d.k;break;
+  case'paint':{const day=Store.get(dayId),col=day[d.col];
+    if(st.brush===0||col[d.i]===st.brush)delete col[d.i];else col[d.i]=st.brush;Store.save(dayId);break}
+  case'tadd':{const t=val('newtask');if(!t)return;Store.get(dayId).tasks.push({id:uid(),t,pri:val('newpri')||'B',done:false});Store.save(dayId);
+    render(true);document.getElementById('newtask').focus();return}
+  case'tdone':{const x=Store.get(dayId).tasks.find(t=>t.id===d.id);x.done=!x.done;Store.save(dayId);break}
+  case'tpri':{const x=Store.get(dayId).tasks.find(t=>t.id===d.id);x.pri={A:'B',B:'C',C:'A'}[x.pri];Store.save(dayId);break}
+  case'tdel':{const day=Store.get(dayId);day.tasks=day.tasks.filter(t=>t.id!==d.id);Store.save(dayId);break}
+  case'habit':{const day=Store.get(dayId);day.habits[d.id]=!day.habits[d.id];Store.save(dayId);break}
+  case'week':st.week=addDays(st.week,+d.n);break;
+  case'wkmode':st.wkMode=d.m;break;
+  case'openday':st.date=d.d;location.hash='today';return;
+  case'gadd':{const t=val('ng');if(!t)return;Store.get('core').goals.push({id:uid(),t,due:val('ngd'),prog:0});Store.save('core');break}
+  case'gdel':{const c=Store.get('core');c.goals=c.goals.filter(g=>g.id!==d.id);Store.save('core');break}
+  case'month':{const [y,m]=st.month.split('-').map(Number);const x=new Date(y,m-1+(+d.n),1);st.month=x.getFullYear()+'-'+pad(x.getMonth()+1);break}
+  case'dadd':{const t=val('nd');if(!t)return;Store.get('core').dreams.push({id:uid(),t,done:false});Store.save('core');break}
+  case'ddone':{const x=Store.get('core').dreams.find(t=>t.id===d.id);x.done=!x.done;Store.save('core');break}
+  case'ddel':{const c=Store.get('core');c.dreams=c.dreams.filter(t=>t.id!==d.id);Store.save('core');break}
+  case'hadd':{const t=val('nh');if(!t)return;Store.get('core').habits.push({id:uid(),name:t});Store.save('core');break}
+  case'hdel':{const c=Store.get('core');c.habits=c.habits.filter(h=>h.id!==d.id);Store.save('core');break}
+  case'bookform':st.bookOpen=!st.bookOpen;break;
+  case'badd':{const t=val('b-t');if(!t){toast('책 제목을 적어 주세요');return}
+    Store.get('books').list.push({id:uid(),t,a:val('b-a'),date:val('b-d'),s:+val('b-s'),k1:val('b-1'),k2:val('b-2'),k3:val('b-3')});
+    Store.save('books');st.bookOpen=false;toast('독서 기록을 저장했어요');break}
+  case'bdel':{const bk=Store.get('books');bk.list=bk.list.filter(b=>b.id!==d.id);Store.save('books');break}
+  case'export':doExport();return;
+  case'import':doImport();return;
+  }
+  render(true);
+}
+async function doExport(){
+  const out={};
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('3p:'))out[k.slice(3)]=JSON.parse(localStorage.getItem(k))}}catch(e){}
+  if(Store.db){try{const s=await Store.db.collection('data/users/'+Store.uid).get();s.docs.forEach(x=>out[x.id]=x.data())}catch(e){}}
+  Object.assign(out,Store.cache);
+  const txt=JSON.stringify({app:'3p-binder',v:1,data:out});const ta=document.getElementById('bk');ta.value=txt;
+  if(window.AndroidBridge){AndroidBridge.share(txt);return}
+  try{await navigator.clipboard.writeText(txt);toast('백업을 복사했어요')}catch(e){ta.select();toast('내용을 길게 눌러 복사하세요')}
+}
+function doImport(){
+  try{const j=JSON.parse(document.getElementById('bk').value);if(j.app!=='3p-binder')throw 0;
+    Object.entries(j.data).forEach(([id,v])=>{Store.cache[id]=Object.assign(defFor(id),v);Store.save(id)});toast('복원했어요');render(true)}
+  catch(e){toast('백업 형식이 아니에요. 백업 내용을 그대로 붙여 넣어 주세요')}
+}
+
+route();
+(function waitClaude(n){if(window.claude&&window.claude.use)connect();else if(n>0)setTimeout(()=>waitClaude(n-1),300);else setSync('local')})(10);
+</script>
+
+</body></html>
